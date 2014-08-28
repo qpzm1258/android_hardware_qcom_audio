@@ -152,6 +152,7 @@ static const char * const device_table[SND_DEVICE_MAX] = {
     [SND_DEVICE_IN_VOICE_REC_DMIC_BS_FLUENCE] = "voice-rec-dmic-bs-fluence",
     [SND_DEVICE_IN_USB_HEADSET_MIC] = "usb-headset-mic",
     [SND_DEVICE_IN_AANC_HANDSET_MIC] = "aanc-handset-mic",
+    [SND_DEVICE_IN_VOICE_REC_MIC_MOD] = "voice-rec-mic-mod", /* hammerhead: fix for poor audio when using the camcorder */ 
 };
 
 /* ACDB IDs (audio DSP path configuration IDs) for each sound device */
@@ -209,6 +210,7 @@ static const int acdb_device_table[SND_DEVICE_MAX] = {
     [SND_DEVICE_IN_VOICE_REC_DMIC_BS] = 62,
     [SND_DEVICE_IN_VOICE_REC_DMIC_EF_FLUENCE] = 6,
     [SND_DEVICE_IN_VOICE_REC_DMIC_BS_FLUENCE] = 5,
+    [SND_DEVICE_IN_VOICE_REC_MIC_MOD] = 62, /* hammerhead: fix for poor audio when using the camcorder */
 };
 
 #define DEEP_BUFFER_PLATFORM_DELAY (29*1000LL)
@@ -756,7 +758,9 @@ snd_device_t platform_get_input_snd_device(void *platform, audio_devices_t out_d
     } else if (source == AUDIO_SOURCE_CAMCORDER) {
         if (in_device & AUDIO_DEVICE_IN_BUILTIN_MIC ||
             in_device & AUDIO_DEVICE_IN_BACK_MIC) {
-            snd_device = SND_DEVICE_IN_CAMCORDER_MIC;
+          //snd_device = SND_DEVICE_IN_CAMCORDER_MIC;  /* hammerhead stock: this "device" is employing a very aggressive noise suppression algorithm */
+	  snd_device = SND_DEVICE_IN_VOICE_REC_MIC_MOD; /* hammerhead: fix for poor audio when using the camcorder: this "device" is not using any noise suppression */
+	  
         }
     } else if (source == AUDIO_SOURCE_VOICE_RECOGNITION) {
         if (in_device & AUDIO_DEVICE_IN_BUILTIN_MIC) {

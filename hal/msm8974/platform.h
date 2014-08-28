@@ -97,6 +97,7 @@ enum {
     SND_DEVICE_IN_VOICE_REC_DMIC_BS_FLUENCE,
     SND_DEVICE_IN_USB_HEADSET_MIC,
     SND_DEVICE_IN_AANC_HANDSET_MIC,
+    SND_DEVICE_IN_VOICE_REC_MIC_MOD, /* hammerhead: fix for poor audio when using the camcorder */
     SND_DEVICE_IN_END,
 
     SND_DEVICE_MAX = SND_DEVICE_IN_END,
